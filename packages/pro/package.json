@@ -1,0 +1,71 @@
+{
+  "name": "@yogo-ui-pro",
+  "version": "1.0.0",
+  "main": "./dist/index.js",
+  "license": "MIT",
+  "source": "src/index.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs"
+    },
+    "./src": {
+      "default": "./src/index.ts"
+    }
+  },
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "clean": "rimraf --no-glob ./dist",
+    "build": "tsup src/index.ts --config tsup.config.ts",
+    "lint": "eslint src --ext .ts,.tsx,.js,.jsx --config ../../.eslintrc.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "author": "Appblocks Inc. <appblocks.xyz@gmail.com>",
+  "homepage": "https://appblocks.xyz/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AppBlocks-UI/appblocks-ui",
+    "directory": "packages/yogo-ui-react"
+  },
+  "keywords": [
+      "appblocks-ui-pro",
+      "appblocks-ui",
+      "react",
+      "ui",
+      "premium",
+      "chakra-ui",
+      "design-system",
+      "react-components",
+      "uikit",
+      "accessible",
+      "components",
+      "emotion",
+      "library"
+  ],
+  "dependencies": {
+    "@chakra-ui/icon": "^3.0.15",
+    "@chakra-ui/react-utils": "^2.0.12",
+    "@chakra-ui/system": "^2.5.8",
+    "@chakra-ui/utils": "^2.0.15",
+    "@yogo-ui/core": "1.0.0",
+    "@yogo-ui/theme": "1.0.0"
+  },
+  "peerDependencies": {
+    "@chakra-ui/react": ">=2.6.0",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "framer-motion": ">=5.5.0",
+    "react": ">=18",
+    "react-dom": ">=18"
+  }
+}
