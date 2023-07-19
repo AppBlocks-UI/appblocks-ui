@@ -2272,6 +2272,11 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.3.2.tgz#31b9c510d8cada9683549e1dbb4284cca5001faf"
   integrity sha512-V+MvGwaHH03hYhY+k6Ef/xKd6RYlc4q8WBx+2ANmipHJcKuktNcI/NgEsJgdSUF6Lw32njT6OnrRsKYCdgHjYw==
 
+"@saas-ui/next-workspaces@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@saas-ui/next-workspaces/-/next-workspaces-0.3.0.tgz#63f953ce8d057733db58534186e686de26583141"
+  integrity sha512-a/z7IMzBxXZ3Mc8fWBWRKw1V5X6jitlOXXJIBKCX5pvHaV/s05w4k5brOPjzYVZrIsbpxvE43gShLWoVTfoWpQ==
+
 "@stitches/core@^1.2.6":
   version "1.2.8"
   resolved "https://registry.yarnpkg.com/@stitches/core/-/core-1.2.8.tgz#dce3b8fdc764fbc6dbea30c83b73bfb52cf96173"
