@@ -1,0 +1,23 @@
+{
+  "routes": [
+    {
+      "title": "Hooks",
+      "routes": [
+        {
+          "title": "Utility",
+          "open": true,
+          "routes": [
+            {
+              "title": "placeholderHook",
+              "path": "/docs/hooks/use-boolean"
+            },
+            {
+              "title": "placeholderHook2",
+              "path": "/docs/hooks/use-breakpoint-value"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

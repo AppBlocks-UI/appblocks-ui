@@ -1,0 +1,14 @@
+{
+  "routes": [
+    {
+      "title": "Recipes",
+      "heading": true,
+      "routes": [
+        {
+          "title": "Omlette",
+          "path": "/recipe/omlette"
+        }
+      ]
+    }
+  ]
+}

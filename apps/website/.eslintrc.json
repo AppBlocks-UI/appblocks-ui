@@ -1,0 +1,36 @@
+{
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/recommended"
+  ],
+  "plugins": ["@typescript-eslint", "import"],
+  "rules": {
+    "react/no-unescaped-entities": 0,
+    "@typescript-eslint/no-explicit-any": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/display-name": "off",
+    "@next/next/no-img-element": "off",
+    "no-console": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "import/no-named-as-default": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "import/namespace": [
+      "error",
+      {
+        "allowComputed": true
+      }
+    ],
+    "import/no-unresolved": "off"
+  },
+  "parserOptions": {
+    "project": "tsconfig.json"
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true
+      }
+    }
+  }
+}

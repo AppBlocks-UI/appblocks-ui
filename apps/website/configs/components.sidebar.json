@@ -1,0 +1,151 @@
+{
+  "routes": [
+    {
+      "title": "Components",
+      "heading": false,
+      "routes": [
+        {
+          "title": "Layout",
+          "path": "/docs/components/layout",
+          "open": true,
+          "summarize": true,
+          "routes": [
+            {
+              "title": "AppPage",
+              "path": "/docs/components/app-page"
+            },
+            {
+              "title": "Container",
+              "path": "/docs/components/container"
+            },
+            {
+              "title": "Footer",
+              "path": "/docs/components/footer"
+            },
+            {
+              "title": "Page",
+              "path": "/docs/components/page"
+            }
+          ]
+        },
+        {
+          "title": "Navigation",
+          "path": "/docs/components/navigation",
+          "open": true,
+          "sort": true,
+          "summarize": true,
+          "routes": [
+            {
+              "title": "Navbar",
+              "path": "/docs/components/navbar"
+            },
+            {
+              "title": "Tabs",
+              "path": "/docs/components/tabs"
+            },
+            {
+              "title": "Stepper",
+              "path": "/docs/components/stepper"
+            }
+          ]
+        },
+        {
+          "title": "Authentication",
+          "path": "/docs/components/authentication",
+          "sort": true,
+          "open": true,
+          "summarize": true,
+          "routes": [
+            {
+              "title": "Forgot Password",
+              "path": "/docs/components/forgot-password"
+            },
+            {
+              "title": "Onboarding",
+              "path": "/docs/components/onboarding"
+            },
+            {
+              "title": "Sign In",
+              "path": "/docs/components/signin"
+            },
+            {
+              "title": "Sign Up",
+              "path": "/docs/components/signup"
+            }
+          ]
+        },
+        {
+          "title": "Data Display",
+          "path": "/docs/components/data-display",
+          "open": true,
+          "sort": true,
+          "summarize": true,
+          "routes": [
+            {
+              "title": "Card",
+              "path": "/docs/components/card"
+            },
+            {
+              "title": "Charts",
+              "path": "/docs/components/charts"
+            },
+            {
+              "title": "List",
+              "path": "/docs/components/list"
+            },
+            {
+              "title": "Table",
+              "path": "/docs/components/table"
+            }
+          ]
+        },
+        {
+          "title": "Forms",
+          "path": "/docs/components/form",
+          "sort": true,
+          "open": true,
+          "summarize": true,
+          "routes": [
+            {
+              "title": "Date Picker",
+              "path": "/docs/components/date-picker"
+            },
+            {
+              "title": "Radio Button",
+              "path": "/docs/components/radio-button"
+            },
+            {
+              "title": "Search",
+              "path": "/docs/components/search"
+            },
+            {
+              "title": "Time Picker",
+              "path": "/docs/components/time-picker"
+            }
+          ]
+        },
+        {
+          "title": "Other",
+          "path": "/docs/components/other",
+          "sort": true,
+          "open": true,
+          "summarize": true,
+          "routes": [
+            {
+              "title": "Icon",
+              "path": "/docs/components/icon"
+            },
+            {
+              "title": "Typography",
+              "path": "/docs/components/text"
+            },
+            {
+              "title": "Animations",
+              "path": "/docs/components/animations"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

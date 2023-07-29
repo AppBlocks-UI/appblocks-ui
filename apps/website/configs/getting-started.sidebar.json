@@ -1,0 +1,21 @@
+{
+  "routes": [
+    {
+      "routes": [
+        {
+          "title": "Installation",
+          "path": "/getting-started"
+        },
+        {
+          "title": "Design Principles",
+          "path": "/getting-started/principles"
+        },
+        {
+          "title": "Colour Palette",
+          "path": "/getting-started/colour-palette",
+          "external": false
+        }
+      ]
+    }
+  ]
+}

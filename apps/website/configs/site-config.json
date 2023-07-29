@@ -1,0 +1,52 @@
+{
+  "copyright": "Copyright © {{date}} AppBlocks. All Rights Reserved.",
+  "algolia": {
+    "apiKey": "@todo-include-your-api-key-here",
+    "indexName": "appblocks",
+    "inputSelector": "#algolia-search"
+  },
+  "author": {
+    "name": "AppBlocks",
+    "github": "https://github.com/",
+    "twitter": "https://twitter.com/appblocks_xyz",
+    "email": "appblocks.xyz@gmail.com"
+  },
+  "repo": {
+    "url": "https://github.com/",
+    "editUrl": "https://github.com/",
+    "blobUrl": "https://github.com/"
+  },
+  "seo": {
+    "title": "AppBlocks",
+    "titleTemplate": "%s - React UI Kit & Component Library",
+    "description": "A React & Chakra UI based design system and component library to build modern web apps and products.",
+    "siteUrl": "https://appblocks.xyz",
+    "twitter": {
+      "handle": "@appblocks_xyz",
+      "site": "@appblocks_xyz",
+      "cardType": "summary_large_image"
+    },
+    "openGraph": {
+      "type": "website",
+      "locale": "en_US",
+      "url": "https://appblocks.xyz",
+      "title": "AppBlocks",
+      "description": "A React & Chakra UI based design system and component library to build modern web apps and products.",
+      "site_name": "AppBlocks: A React & Chakra UI based design system and component library to build modern web apps and products.",
+      "images": [
+        {
+          "url": "https://appblocks.xyz/og-image.png",
+          "width": 1240,
+          "height": 480,
+          "alt": "React & Chakra UI: A React & Chakra UI based design system and component library to build modern web apps and products."
+        },
+        {
+          "url": "https://appblocks.xyz/twitter-og-image.png",
+          "width": 1012,
+          "height": 506,
+          "alt": "React & Chakra UI: A React & Chakra UI based design system and component library to build modern web apps and products."
+        }
+      ]
+    }
+  }
+}
