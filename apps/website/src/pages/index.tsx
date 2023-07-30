@@ -11,6 +11,16 @@ import {
   Container as ChakraContainer,
   SimpleGrid,
   Skeleton,
+  Portal,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Button,
+  useDisclosure,
 } from '@chakra-ui/react';
 
 import { RiWaterFlashFill, RiSeedlingFill, RiPlugFill } from "react-icons/ri";
@@ -20,14 +30,15 @@ import { FAQList } from '@root/components/lists/FAQList';
 import { T2BProductFeatures } from '@root/components/pages/landing/T2BProductFeatures';
 import { transitionVariants } from '@root/theme/animations';
 import { Section } from '@root/components/layout/Section';
+import WaitlistForm from "@root/components/forms/WaitlistForm";
 
 const productHeroImage = require('@root/assets/product_hero.png');
 
 export default function Home() {
 
-  const heroText = `Beautiful React UI Kit and component library`
+  const heroText = `Beautiful React UI Kit & Component Library`
   // const heroSubText = "A React + Chakra UI based design system and component library to build modern web apps and products."
-  const heroSubText = "Appblocks provides 65 well-designed, copy-and-pasteable React components that work seamlessly with ChakraUI v2.7. Build your next app without worrying about layouts or CSS, and tweak whatever you want."
+  const heroSubText = "Appblocks provides 30 well-designed, copy-and-pasteable React components that work seamlessly with ChakraUI v2.7. Build your next app without worrying about layouts or CSS, and tweak whatever you want."
 
   const demoLink = "https://yogo-demo.appblocks.xyz/"
 
@@ -65,12 +76,13 @@ export default function Home() {
 
   const pricingPlanList = [
     {
-      slug: "yogo-lite",
-      title: "Yogo Lite",
-      price: "$49",
-      payFrequency: "one-time payment",
-      payLink: 'https://appblocks.lemonsqueezy.com/checkout/buy/89f928f6-cfcc-4a2b-86ff-2a1a261e7134',
-      cta: 'Buy Now',
+      slug: "yogo-free",
+      title: "Lite",
+      price: "Free",
+      payFrequency: "yours forever",
+      // payLink: 'https://appblocks.lemonsqueezy.com/checkout/buy/89f928f6-cfcc-4a2b-86ff-2a1a261e7134',
+      payLink: 'https://appblocks.notion.site/appblocks/Components-List-3cdd2ca0f7b8438e986f2a7da9adfb0f',
+      cta: 'View Components',
       description:
         "You only need the theme & components in your project",
       features: [
@@ -83,10 +95,10 @@ export default function Home() {
     },
 
     {
-      slug: "yogo-complete",
-      title: "Yogo Complete",
-      price: "$149",
-      payFrequency: "one-time payment",
+      slug: "yogo-pro",
+      title: "Pro",
+      price: "$110",
+      payFrequency: "yours forever",
       payLink: 'https://appblocks.lemonsqueezy.com/checkout/buy/bf610180-039d-4f53-a510-b9216a6e6857',
       cta: 'Buy Now',
       description:
@@ -105,16 +117,16 @@ export default function Home() {
     {
       slug: "custom",
       title: "Custom",
-      price: "$1499+",
-      payFrequency: "",
+      price: "$599",
+      payFrequency: "per month",
       payLink: 'mailto:appblocks.xyz@gmail.com',
       cta: 'Contact Us',
       description:
         "You need something custom, or want to hire us for a project",
       features: [
-        "Custom theme",
+        "Implement your design",
+        "Build layouts and flows",
         "One project",
-        "Custom pages and flows",
       ],
       secondaryFeatures: [],
       isFavourite: false,
@@ -139,6 +151,12 @@ export default function Home() {
       answer: "After you have purchased a license through our payment provider, you will receive an email from them confirming your purchase. In addition, you will receive instructions to download the source code.",
     },
   ]
+
+  const {
+    isOpen: isOpenWaitlistModal,
+    onOpen: onOpenWaitlistModal,
+    onClose: onCloseWaitlistModal,
+  } = useDisclosure();
 
   return (
     <>
@@ -178,11 +196,16 @@ export default function Home() {
                   textStyle="h5"
                   fontWeight="normal"
                   align={["left", "center"]}
-                  fontSize={["17px", "24px"]}
+                  fontSize={["17px", "18px"]}
                 >
                   {heroSubText}
                 </Text>
-                <SimpleGrid columns={[2]} spacing={4} w={["100%", "400px"]} zIndex="toast">
+                <SimpleGrid
+                  columns={[2]}
+                  spacing={4}
+                  w={["100%", "400px"]}
+                  zIndex="dropdown"
+                >
                   <Link
                     as={NextLink}
                     target="_blank"
@@ -194,13 +217,14 @@ export default function Home() {
                     View Demo
                   </Link>
                   <Link
-                    as={NextLink}
-                    href="#pricing"
+                    href={"#pricing"}
+                    as={Button}
                     variant="brand-solid-button"
-                    w="100%"
+                    onClick={onOpenWaitlistModal}
                     textAlign="center"
+                    w={"100%"}
                   >
-                    Buy Now
+                    Join Waitlist
                   </Link>
                 </SimpleGrid>
               </VStack>
@@ -298,6 +322,30 @@ export default function Home() {
           </ChakraContainer>
         </VStack>
       </Page>
+
+      <Portal>
+        <Modal
+          isOpen={isOpenWaitlistModal}
+          onClose={onCloseWaitlistModal}
+          motionPreset="slideInBottom"
+          scrollBehavior="inside"
+          size="xl"
+        >
+          <ModalOverlay
+            bg="none"
+            backdropFilter="auto"
+            backdropBrightness={0.5}
+            backdropBlur="5px"
+          />
+          <ModalContent>
+            <ModalHeader>Join the Waitlist</ModalHeader> <ModalCloseButton />
+            <ModalBody>
+              <WaitlistForm />
+            </ModalBody>
+            <ModalFooter></ModalFooter>
+          </ModalContent>
+        </Modal>
+      </Portal>
     </>
   );
 }

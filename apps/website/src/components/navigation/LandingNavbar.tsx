@@ -5,8 +5,18 @@ import {
   Flex,
   Link,
   HStack,
-  IconButton,
   useBreakpointValue,
+  Portal,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Button,
+  
 } from "@chakra-ui/react";
 import { LogoIcon, ColorModeIcon } from '@root/components/base/Icons';
 import { MobileLandingNavbar } from '@root/components/navigation/MobileLandingNavbar';
@@ -14,6 +24,7 @@ import { MobileLandingNavbar } from '@root/components/navigation/MobileLandingNa
 import {FiArrowUpRight} from 'react-icons/fi'
 
 import { navbarLinks } from '@root/utils/constants';
+import WaitlistForm from "@root/components/forms/WaitlistForm";
 
 export function LandingNavbar(props: any) {
 
@@ -28,6 +39,7 @@ export function LandingNavbar(props: any) {
       ssr: true,
     }
   );
+  const { isOpen, onOpen, onClose } = useDisclosure()
 
   if (isMobile) {
     return <MobileLandingNavbar {...props} />;
@@ -50,12 +62,15 @@ export function LandingNavbar(props: any) {
       }}
     >
       <Flex h={100} alignItems="center" width="auto" mr="89px">
-        <Link href="/" transition='transform 0.2s ease-in-out' _hover={{
-          textDecoration: 'none',
-          
-          transform: "translateX(4px)"
-          
-        }}>
+        <Link
+          href="/"
+          transition="transform 0.2s ease-in-out"
+          _hover={{
+            textDecoration: "none",
+
+            transform: "translateX(4px)",
+          }}
+        >
           <LogoIcon w={48} />
         </Link>
       </Flex>
@@ -70,13 +85,11 @@ export function LandingNavbar(props: any) {
               variant="navlink"
               target={link.isExternal ? "_blank" : ""}
             >
-              <Flex
-                alignItems="center"
-                justifyContent="space-between"
-              >
-
-              {link.name} 
-              {link.isExternal && <FiArrowUpRight style={{marginLeft: '4px'}} />}
+              <Flex alignItems="center" justifyContent="space-between">
+                {link.name}
+                {link.isExternal && (
+                  <FiArrowUpRight style={{ marginLeft: "4px" }} />
+                )}
               </Flex>
             </Link>
           ))}
@@ -91,11 +104,41 @@ export function LandingNavbar(props: any) {
             mr={3}
           /> */}
 
-          <Link href={"#pricing"} as={NextLink} variant="brand-solid-button" textAlign="center" w={"120px"}>
-            Buy
+          <Link
+            href={"#pricing"}
+            as={Button}
+            variant="brand-solid-button"
+            onClick={onOpen}
+            textAlign="center"
+            w={"120px"}
+          >
+            Join Waitlist
           </Link>
         </Flex>
       </Flex>
+      <Portal>
+        <Modal
+          isOpen={isOpen}
+          onClose={onClose}
+          motionPreset="slideInBottom"
+          scrollBehavior="inside"
+          size="xl"
+        >
+          <ModalOverlay
+            bg="none"
+            backdropFilter="auto"
+            backdropBrightness={0.5}
+            backdropBlur="5px"
+          />
+          <ModalContent>
+            <ModalHeader>Join the Waitlist</ModalHeader> <ModalCloseButton />
+            <ModalBody>
+              <WaitlistForm />
+            </ModalBody>
+            <ModalFooter></ModalFooter>
+          </ModalContent>
+        </Modal>
+      </Portal>
     </Flex>
   );
 }

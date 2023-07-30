@@ -1,7 +1,7 @@
 import { defineStyle, defineStyleConfig } from '@chakra-ui/react'
 
 const base = defineStyle({
-  background: 'brand.secondary.kappa',
+  bg: 'brand.secondary.kappa',
   color: 'black.40',
   fontWeight: 'normal',
   textTransform: 'normal',
@@ -9,7 +9,7 @@ const base = defineStyle({
 
   // let's also provide dark mode alternatives
   _dark: {
-    background: 'brand.secondary.g',
+    bg: 'brand.secondary.g',
     color: 'black.80',
   }
 })

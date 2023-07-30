@@ -55,7 +55,7 @@ export const textStyles = {
   },
   featureContent: {
     color: "gray.80",
-    fontSize: "18px",
+    fontSize: "16px",
     lineHeight: "140%",
     letterSpacing: ".053rem",
     _dark: {

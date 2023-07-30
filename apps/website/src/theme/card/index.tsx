@@ -49,6 +49,27 @@ const highlights1Variant = definePartsStyle({
     }
   })
 
+  const pricingCardFav = definePartsStyle({
+    container: {
+      bg: 'gray.l10',
+      _dark: {
+        bg: 'brand.secondary.g',
+        color: 'white'
+      }
+    }
+  })
+
+  const pricingCard2 = definePartsStyle({
+    container: {
+      bg: 'brand.secondary.beta',
+      _dark: {
+        bg: 'gray.l5',
+        color: 'gray.l40'
+
+      }
+    }
+  })  
+
   const filled = definePartsStyle({
     container: {
       bg: 'white.5',
@@ -60,6 +81,8 @@ export const cardTheme = defineMultiStyleConfig({
     variants: {
         highlights1: highlights1Variant,
         highlights2: highlights2Variant,
+        pricingCardFav: pricingCardFav,
+        pricingCard2: pricingCard2,
         filled: filled,
     } 
 });

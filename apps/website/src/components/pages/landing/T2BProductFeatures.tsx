@@ -25,12 +25,13 @@ export const T2BProductFeatures = ({
           >
             <VStack
               w={["100%", "40%"]}
-              spacing={2}
+              spacing={6}
               align={["flex-start", "center"]}
               maxW="1080px"
+              mb={[0, 12]}
               // w="60%"
             >
-              <Text as="h3" textStyle="h3" align={["left", "center"]}>
+              <Text as="h3" textStyle="h2" align={["left", "center"]}>
                 {item.heading}
               </Text>
               <Text

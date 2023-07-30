@@ -4,16 +4,24 @@ import NextLink from 'next/link'
 import {
   Flex,
   IconButton,
-  Drawer,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  DrawerHeader,
   useDisclosure,
   useColorModeValue,
   useColorMode,
   Link,
-  VStack,
+  Portal,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Button,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuDivider,
 } from "@chakra-ui/react";
 
 import { FiMenu } from "react-icons/fi";
@@ -26,6 +34,8 @@ import { LogoIcon } from '@root/components/base/Icons';
 
 import { navbarLinks } from '@root/utils/constants';
 
+import WaitlistForm from "@root/components/forms/WaitlistForm";
+
 export interface NavbarProps {
   title?: string;
   username?: string;
@@ -35,10 +45,11 @@ export function MobileLandingNavbar({  }: NavbarProps) {
   const { colorMode, toggleColorMode } = useColorMode()
 
   const {
-    isOpen: isOpenNav,
-    onOpen: onOpenNav,
-    onClose: onCloseNav,
+    isOpen: isOpenWaitlistModal,
+    onOpen: onOpenWaitlistModal,
+    onClose: onCloseWaitlistModal,
   } = useDisclosure();
+
 
   const btnRef = React.useRef<HTMLButtonElement>(null);
 
@@ -74,67 +85,79 @@ export function MobileLandingNavbar({  }: NavbarProps) {
                 variant="baseIconButton"
                 onClick={toggleColorMode}
               /> */}
-
-              <IconButton
-                aria-label="Menu"
-                onClick={onOpenNav}
-                ref={btnRef}
-                icon={<FiMenu />}
-                variant="baseIconButton"
-              />
+              <Menu>
+                <MenuButton
+                  as={IconButton}
+                  aria-label="Mobile menu"
+                  icon={<FiMenu />}
+                  ref={btnRef}
+                  variant="baseIconButton"
+                />
+                <MenuList >
+                  {navbarLinks.map((link, index) => (
+                    <MenuItem w="100%" justifyContent="center">
+                      <Link
+                        key={`navbar-links-${index}`}
+                        href={link.href}
+                        as={NextLink}
+                        variant="navlink"
+                        target={link.isExternal ? "_blank" : ""}
+                        my={0.8}
+                      >
+                        <Flex
+                          alignItems="center"
+                          justifyContent="space-between"
+                        >
+                          {link.name}
+                          {link.isExternal && (
+                            <FiArrowUpRight style={{ marginLeft: "4px" }} />
+                          )}
+                        </Flex>
+                      </Link>
+                    </MenuItem>
+                  ))}
+                  <MenuDivider />
+                  <MenuItem>
+                    <Link
+                      href={"#pricing"}
+                      as={Button}
+                      variant="brand-solid-button"
+                      onClick={onOpenWaitlistModal}
+                      textAlign="center"
+                      w={"100%"}
+                    >
+                      Join Waitlist
+                    </Link>
+                  </MenuItem>
+                </MenuList>
+              </Menu>
             </Flex>
           </Flex>
         </Flex>
-        <Drawer
-          isOpen={isOpenNav}
-          placement="top"
-          onClose={onCloseNav}
-          finalFocusRef={btnRef}
-        >
-          <DrawerOverlay />
-
-          <DrawerContent
-            bg={useColorModeValue("white.100", "black.100")}
-            borderLeft="1px"
-            borderColor={useColorModeValue("gray.10", "gray.80")}
+        
+        <Portal>
+          <Modal
+            isOpen={isOpenWaitlistModal}
+            onClose={onCloseWaitlistModal}
+            motionPreset="slideInBottom"
+            scrollBehavior="inside"
+            size="xl"
           >
-            <DrawerCloseButton
-              zIndex="popover"
-              variant="baseIconButton"
-              mt="12px"
+            <ModalOverlay
+              bg="none"
+              backdropFilter="auto"
+              backdropBrightness={0.5}
+              backdropBlur="5px"
             />
-            <DrawerHeader>
-              <VStack width="auto" gap={3} mt={4} align="center">
-                {navbarLinks.map((link, index) => (
-                  <Link
-                    key={`navbar-links-${index}`}
-                    href={link.href}
-                    as={NextLink}
-                    variant="navlink"
-                    target={link.isExternal ? "_blank" : ""}
-                  >
-                    <Flex alignItems="center" justifyContent="space-between">
-                      {link.name}
-                      {link.isExternal && (
-                        <FiArrowUpRight style={{ marginLeft: "4px" }} />
-                      )}
-                    </Flex>
-                  </Link>
-                ))}
-
-                <Link
-                  href={"#pricing"}
-                  as={NextLink}
-                  variant="outlineButton"
-                  w="100%"
-                  textAlign="center"
-                >
-                  Buy
-                </Link>
-              </VStack>
-            </DrawerHeader>
-          </DrawerContent>
-        </Drawer>
+            <ModalContent>
+              <ModalHeader>Join the Waitlist</ModalHeader> <ModalCloseButton />
+              <ModalBody>
+                <WaitlistForm />
+              </ModalBody>
+              <ModalFooter></ModalFooter>
+            </ModalContent>
+          </Modal>
+        </Portal>
       </>
     );
   
