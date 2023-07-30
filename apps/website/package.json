@@ -21,6 +21,7 @@
     "@docsearch/react": "1.0.0-alpha.27",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@saas-ui/next-workspaces": "0.3.0",
     "@types/node": "18.15.11",
     "@types/react": "18.0.35",
     "@types/react-dom": "18.0.11",
