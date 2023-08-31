@@ -1,166 +1,148 @@
-import * as React from 'react'
+import { AccordionItem, AccordionButton, Flex, Icon, AccordionPanel, Link } from '@chakra-ui/react'
+import { Box } from 'framer-motion'
+import React from 'react'
 
-import {
-  chakra,
-  Collapse,
-  HTMLChakraProps,
-  ThemingProps,
-  useMultiStyleConfig,
-} from '@chakra-ui/react'
-
-import { runIfFn, cx } from '@chakra-ui/utils'
-import { MaybeRenderProp } from '@chakra-ui/react-utils'
-import { ChevronDownIcon, ChevronRightIcon } from '../icons'
-
-import { CollapseProvider, useCollapseContext, useCollapse } from '../collapse'
-
-import { NavGroupStylesProvider, useNavGroupStyles } from './nav-context'
-
-export interface NavGroupTitleProps extends HTMLChakraProps<'div'> {
-  leftIcon?: React.ReactElement
-  collapseIcon?: MaybeRenderProp<{ isOpen: boolean }>
-  isCollapsible?: boolean
-}
-
-const NavGroupIcon: React.FC<HTMLChakraProps<'span'>> = (props) => {
-  const { children, className, ...rest } = props
-
-  const _children = React.isValidElement<any>(children)
-    ? React.cloneElement(children, {
-        'aria-hidden': true,
-        focusable: false,
-      })
-    : children
-
-  const _className = cx('sui-nav-group__icon', className)
-
+export const NavGroup = () => {
   return (
-    <chakra.span
-      display="inline-flex"
-      alignSelf="center"
-      flexShrink={0}
-      {...rest}
-      className={_className}
-    >
-      {_children}
-    </chakra.span>
+    <>
+      <AccordionItem w="100%">
+                    {({ isExpanded }) => (
+                      <>
+                        <AccordionButton
+                          position="relative"
+                          bg={
+                            isPathActive(
+                              menuItem.link,
+                              menuItem.submenu != undefined
+                            )
+                              ? "gray.5"
+                              : "transparent"
+                          }
+                          _dark={{
+                            bg: isPathActive(
+                              menuItem.link,
+                              menuItem.submenu != undefined
+                            )
+                              ? "gray.l5"
+                              : "transparent",
+                          }}
+                        >
+                          {isPathActive(menuItem.link, true) && (
+                            <Box
+                              bg="brand.primary.alpha"
+                              _dark={{
+                                bg: "brand.secondary.beta",
+                              }}
+                              width={1}
+                              height="4"
+                              rounded="full"
+                              position="absolute"
+                              left={0}
+                            />
+                          )}
+                          <Flex alignItems="center" justify="flex-start">
+                            <Icon
+                              // as={menuItem.icon}
+                              mr={2}
+                              boxSize={4}
+                              color={
+                                isPathActive(
+                                  menuItem.link,
+                                  menuItem.submenu != undefined
+                                )
+                                  ? "brand.primary.alpha"
+                                  : "gray.80"
+                              }
+                              _dark={{
+                                color: isPathActive(
+                                  menuItem.link,
+                                  menuItem.submenu != undefined
+                                )
+                                  ? "white.100"
+                                  : "white.100",
+                              }}
+                            />
+                            <Text textStyle="base">{menuItem.name}</Text>
+                          </Flex>
+                          {isExpanded ? (
+                            <ChevronDownIcon
+                              boxSize={5}
+                              color="gray.20"
+                              _dark={{
+                                color: "gray.l40",
+                              }}
+                            />
+                          ) : (
+                            <ChevronRightIcon
+                              boxSize={5}
+                              color="gray.20"
+                              _dark={{
+                                color: "gray.l40",
+                              }}
+                            />
+                          )}
+                        </AccordionButton>
+                        <AccordionPanel>
+                          {menuItem.submenu.map((submenuItem, index) => (
+                            <Box
+                              key={`submenu-item-${index}`}
+                              as={Link}
+                              href={submenuItem.link}
+                              display="flex"
+                              alignItems="center"
+                              _hover={{
+                                cursor: "pointer",
+                                bgColor: "gray.5",
+                                _dark: {
+                                  bgColor: "gray.l5",
+                                },
+                              }}
+                              w="100%"
+                              py={2}
+                              px={6}
+                              marginTop="0"
+                              position="relative"
+                              rounded="md"
+                              fontWeight={
+                                isPathActive(submenuItem.link, false) // not a parent
+                                  ? "semibold"
+                                  : "normal"
+                              }
+                              bgColor={
+                                isPathActive(submenuItem.link, false) // not a parent
+                                  ? "gray.5"
+                                  : "transparent"
+                              }
+                              _dark={{
+                                bgColor: isPathActive(submenuItem.link, false) // not a parent
+                                  ? "gray.l5"
+                                  : "transparent",
+                              }}
+                            >
+                              {isPathActive(submenuItem.link, false) && (
+                                <Box
+                                  bg="brand.primary.alpha"
+                                  _dark={{
+                                    bg: "brand.secondary.beta",
+                                  }}
+                                  width={1}
+                                  height="4"
+                                  rounded="full"
+                                  position="absolute"
+                                  left={0}
+                                />
+                              )}
+                              <Flex alignItems="center">
+                                <Text textStyle="base" ml={4}>
+                                  {submenuItem.name}
+                                </Text>
+                              </Flex>
+                            </Box>
+                          ))}
+                        </AccordionPanel>
+                      </>
+                    )}
+                  </AccordionItem>
+    </>
   )
-}
-
-export const NavGroupTitle: React.FC<NavGroupTitleProps> = (props) => {
-  const {
-    leftIcon,
-    collapseIcon = ({ isOpen }) =>
-      isOpen ? <ChevronDownIcon /> : <ChevronRightIcon />,
-    children,
-    ...rest
-  } = props
-  const styles = useNavGroupStyles()
-
-  const { getToggleProps, isOpen, isCollapsible } = useCollapseContext()
-
-  const iconStyles = { marginEnd: 2, ...styles.icon }
-
-  const toggleProps = getToggleProps(rest)
-
-  return (
-    <chakra.div
-      {...toggleProps}
-      __css={styles.title}
-      className={cx(
-        'saas-nav-group__title',
-        props.className,
-        toggleProps.className
-      )}
-    >
-      {leftIcon && <NavGroupIcon __css={iconStyles}>{leftIcon}</NavGroupIcon>}
-      <chakra.span flex="1">{runIfFn(children, { isOpen })}</chakra.span>
-      {isCollapsible && (
-        <NavGroupIcon>{runIfFn(collapseIcon, { isOpen })}</NavGroupIcon>
-      )}
-    </chakra.div>
-  )
-}
-
-NavGroupTitle.displayName = 'NavGroupTitle'
-
-export interface NavGroupProps
-  extends Omit<HTMLChakraProps<'div'>, 'title'>,
-    ThemingProps<'SuiNavGroup'> {
-  title?: React.ReactNode
-  isCollapsible?: boolean
-  defaultIsOpen?: boolean
-  onOpen?: () => void
-  onClose?: () => void
-  icon?: React.ReactElement
-}
-
-export const NavGroupContent: React.FC<HTMLChakraProps<'div'>> = (props) => {
-  const styles = useNavGroupStyles()
-  return (
-    <chakra.div
-      {...props}
-      __css={styles.content}
-      className={cx('sui-nav-group__content', props.className)}
-    />
-  )
-}
-
-/**
- * Navigation group containing nav items, used in Sidebar.
- *
- * @see Docs https://saas-ui.dev/docs/components/layout/sidebar
- */
-export const NavGroup: React.FC<NavGroupProps> = (props) => {
-  const {
-    title,
-    icon,
-    isCollapsible,
-    defaultIsOpen,
-    onOpen,
-    onClose,
-    children,
-    ...rest
-  } = props
-  const styles = useMultiStyleConfig('SuiNavGroup', props)
-
-  const collapse = useCollapse(props)
-  const { getCollapseProps } = collapse
-
-  let header = title
-  if (typeof title === 'string') {
-    header = <NavGroupTitle leftIcon={icon}>{title}</NavGroupTitle>
-  }
-
-  let content = <NavGroupContent>{children}</NavGroupContent>
-
-  if (isCollapsible) {
-    content = <Collapse {...(getCollapseProps() as any)}>{content}</Collapse>
-  }
-
-  return (
-    <NavGroupStylesProvider value={styles}>
-      <CollapseProvider value={collapse}>
-        <chakra.div
-          __css={{
-            userSelect: 'none',
-            ...styles.container,
-          }}
-          {...rest}
-          className={cx('sui-nav-group', props.className)}
-          role="group"
-        >
-          {header}
-          {content}
-        </chakra.div>
-      </CollapseProvider>
-    </NavGroupStylesProvider>
-  )
-}
-
-NavGroup.displayName = 'NavGroup'
-
-NavGroup.defaultProps = {
-  defaultIsOpen: true,
-  isCollapsible: false,
 }

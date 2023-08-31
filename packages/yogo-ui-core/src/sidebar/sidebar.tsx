@@ -1,278 +1,139 @@
-import * as React from 'react'
+import React from "react";
+
+import { useRouter } from "next/router";
+
+import { ChevronDownIcon, ChevronRightIcon } from "@chakra-ui/icons";
 
 import {
-  chakra,
-  omitThemingProps,
-  useMultiStyleConfig,
-  useBreakpointValue,
-  SystemStyleObject,
-  IconButton,
-  useDisclosure,
-  Portal,
-  forwardRef,
-  useTheme,
-  useStyleConfig,
-} from '@chakra-ui/react'
-import { cx, dataAttr, runIfFn } from '@chakra-ui/utils'
-import { SidebarIcon } from '../icons'
-import { motion, AnimatePresence } from 'framer-motion'
+  Flex,
+  Box,
+  Avatar,
+  Text,
+  VStack,
+  Icon,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  useColorMode,
+  Link,
+} from "@chakra-ui/react";
+import { NavItem } from "./nav-item";
+import { NavGroup } from "./nav-group";
 
-import {
-  SidebarProvider,
-  useSidebarContext,
-  useSidebarToggleButton,
-} from './use-sidebar'
-import { SidebarStylesProvider, useSidebarStyles } from './sidebar-context'
-import {
-  SidebarOverlayProps,
-  SidebarProps,
-  SidebarSectionProps,
-  SidebarToggleButtonProps,
-} from './sidebar-types'
-import { getBreakpoints } from './sidebar-utils'
-import { useAppPageContext } from '../app-page/app-page-context'
 
-const MotionBox = chakra(motion.nav)
-
-const motionPresets = {
-  slideInOut: {
-    enter: {
-      left: 0,
-      transition: { type: 'spring', duration: 0.6, bounce: 0.15 },
-    },
-    exit: {
-      left: '-100%',
-    },
-  },
-  none: {},
-}
-
-/**
- * Side navigation, commonly used as the primary navigation
- *
- * @see Docs https://saas-ui.dev/docs/components/layout/sidebar
- */
-export const Sidebar = forwardRef<SidebarProps, 'nav'>((props, ref) => {
-  const styles = useMultiStyleConfig('SuiSidebar', props)
-  const theme = useTheme()
-  const defaultProps = theme.components['SuiSidebar']?.defaultProps
-
-  const variant = theme ? "base" : "compact"
-  const size = "base"
-
-  const isCondensed = variant === 'compact'
-
-  const {
-    spacing = 4,
-    children,
-    toggleBreakpoint,
-    className,
-    motionPreset = 'slideInOut',
-    isOpen: isOpenProp,
-    onOpen: onOpenProp,
-    onClose: onCloseProp,
-    ...containerProps
-  } = omitThemingProps(props)
-
-  const appShell = useAppPageContext()
-  const breakpoints = getBreakpoints(toggleBreakpoint)
-
-  const isMobile = useBreakpointValue(breakpoints, {
-    fallback: undefined,
-  })
-  // we check this twice to avoid SSR issues.
-  const isMobileInitial = useBreakpointValue(breakpoints)
-  const isInitial = typeof isMobile === 'undefined'
-  const isControlled = typeof isOpenProp !== 'undefined'
-  const isCollapsible = (isMobile || isControlled) && !isCondensed
-
-  const disclosure = useDisclosure({
-    isOpen: isOpenProp || appShell?.isLeftSidebarOpen,
-    onOpen: onOpenProp || appShell?.openLeftSidebar,
-    onClose: onCloseProp || appShell?.closeLeftSidebar,
-  })
-
-  const { isOpen, onClose, onOpen } = disclosure
-
-  React.useEffect(() => {
-    if ((isInitial && isMobileInitial) || isCondensed || isControlled) {
-      // make sure we do not show an initial animation or when this is a compact sidebar
-      return
-    }
-    isMobileInitial ? onClose() : onOpen()
-  }, [isInitial, isCondensed, isMobileInitial])
-
-  const containerStyles: SystemStyleObject = {
-    '& > *:not(style) ~ *:not(style, .sui-resize-handle, .sui-sidebar__toggle-button + *)':
+const sidebarMenu = [
+  {
+    name: "Dashboards",
+    icon: ChevronDownIcon,
+    link: "#dash",
+    submenu: [
       {
-        marginTop: spacing,
+        name: "Overview",
+        icon: ChevronDownIcon,
+        link: "#overview",
       },
-    display: 'flex',
-    flexDirection: 'column',
-    ...(isMobile && isCollapsible
-      ? {
-          position: 'absolute',
-          zIndex: 'modal',
-          top: 0,
-          left: { base: '-100%', lg: '0' },
-          bottom: 0,
-        }
-      : {
-          position: 'relative',
-        }),
+      {
+        name: "Reports",
+        icon: ChevronDownIcon,
+        link: "#reports",
+      },
+    ],
+  },
+  {
+    name: "Projects",
+    icon: ChevronDownIcon,
+    link: "#projects",
+    submenu: [
+      {
+        name: "Overview",
+        icon: ChevronDownIcon,
+        link: "/projects",
+      },
+      {
+        name: "Project Details",
+        icon: ChevronDownIcon,
+        link: "/projects/project-details",
+      },
+      {
+        name: "Followers",
+        icon: ChevronDownIcon,
+        link: "#followers",
+      },
+    ],
   }
+];
 
-  const context = {
-    ...disclosure,
-    breakpoints,
-    isMobile,
-    variant,
-    size,
-  }
 
-  const variants = motionPresets[isCondensed ? 'none' : motionPreset || 'none']
+export const Sidebar = (props: any) => {
+  const router = useRouter();
+  const { colorMode } = useColorMode()
+  const { 
+    // sidebarMenu, 
+    // LogoIcon,
+    // DarkModeLogoIcon 
+  } = props
 
   return (
-    <SidebarProvider 
-      // @ts-ignore
-      value={context}
+    <Flex
+      minH="100vh"
+      // position="sticky"
+      flexDir="column"
+      top={0}
+      left={0}
+      justify="space-between"
+      borderRight="1px solid"
+      borderColor="gray.10"
+      _dark={{
+        borderColor: "gray.l10",
+      }}
     >
-      <SidebarStylesProvider value={styles}>
-        <MotionBox
-          ref={ref}
-          initial={false}
-          animate={!isInitial && (!isCollapsible || isOpen ? 'enter' : 'exit')}
-          variants={variants}
-          __css={{
-            ...containerStyles,
-            ...styles.container,
-          }}
-          {...containerProps}
-          id={disclosure.getDisclosureProps().id}
-          className={cx('sui-sidebar', className)}
-          data-compact={dataAttr(isCondensed)}
-          data-collapsible={dataAttr(isMobile && isCollapsible)}
+      <Box>
+        <Flex
+          px={4}
+          width="100%"
+          height="73px"
+          borderRadius="md"
+          mb={4}
+          fontSize="14px"
+          justifyContent="space-between"
+          alignItems="center"
         >
-          {children}
-        </MotionBox>
-      </SidebarStylesProvider>
-    </SidebarProvider>
-  )
-})
+          <Flex alignItems="center">
+            <Avatar
+              name="Hannah Waddingham"
+              src="https://plus.unsplash.com/premium_photo-1663054688278-ebf09d654d33?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1287&q=80"
+              bgColor="brand.primary.kappa"
+              color="black.100"
+              size="sm"
+              mr={2}
+            />
+            <Box>
+              <Text textStyle="base">Hannah Dubois</Text>
+            </Box>
+          </Flex>
+        </Flex>
 
-Sidebar.defaultProps = {
-  variant: 'default',
-  toggleBreakpoint: 'lg',
-}
-
-Sidebar.displayName = 'Sidebar'
-Sidebar.id = 'Sidebar'
-
-/**
- * Button that toggles the sidebar visibility.
- *
- * @see Docs https://saas-ui.dev/docs/components/layout/sidebar
- */
-export const SidebarToggleButton: React.FC<SidebarToggleButtonProps> = (
-  props
-) => {
-  const { sx, pos, position, ...rest } = props
-  const { isOpen, isMobile, getButtonProps } = useSidebarToggleButton()
-  const styles = useStyleConfig('SuiSidebarToggleButton', props)
-
-  const p = pos ?? position ?? sx?.pos ?? sx?.position
-
-  const buttonStyles: SystemStyleObject = {
-    ...(isMobile
-      ? !p
-        ? { position: 'fixed', top: 3, left: 4, zIndex: 'modal' }
-        : {}
-      : { display: 'none' }),
-    ...styles,
-    ...sx,
-  }
-
-  const icon = props.icon ? (
-    runIfFn(props.icon, {
-      isOpen,
-    })
-  ) : (
-    <SidebarIcon />
-  )
-
-  return (
-    <IconButton
-      variant="ghost"
-      sx={buttonStyles}
-      aria-label={isOpen ? 'Close sidebar' : 'Open sidebar'}
-      {...rest}
-      {...getButtonProps(props)}
-      icon={icon as any}
-      className={cx('sui-sidebar__toggle-button', props.className)}
-    />
-  )
-}
-
-/**
- * Overlay shown when sidebar is open on mobile.
- *
- * @see Docs https://saas-ui.dev/docs/components/layout/sidebar
- */
-export const SidebarOverlay: React.FC<SidebarOverlayProps> = (props) => {
-  const { onClose, isOpen, isMobile } = useSidebarContext()
-
-  const styles = useSidebarStyles()
-
-  return (
-    <Portal>
-      <AnimatePresence>
-        {isMobile && isOpen && (
-          <MotionBox
-            animate={isOpen ? 'enter' : 'exit'}
-            initial="exit"
-            variants={{
-              enter: { opacity: 1 },
-              exit: { opacity: 0 },
-            }}
-            position="fixed"
-            top="0"
-            right="0"
-            bottom="0"
-            left="0"
-            zIndex="overlay"
-            {...props}
-            onClick={onClose}
-            __css={styles.overlay}
-          />
-        )}
-      </AnimatePresence>
-    </Portal>
-  )
-}
-
-SidebarToggleButton.displayName = 'SidebarToggleButton'
-
-/**
- * Sidebar section that can contain sidebar items.
- *
- * @see Docs https://saas-ui.dev/docs/components/layout/sidebar
- */
-export const SidebarSection: React.FC<SidebarSectionProps> = (props) => {
-  const { direction = 'column', ...rest } = props
-  const styles = useSidebarStyles()
-  const sectionStyles = {
-    display: 'flex',
-    flexDirection: direction,
-    ...styles.section,
-  }
-
-  return (
-    <chakra.div
-      __css={sectionStyles}
-      {...rest}
-      className={cx('sui-sidebar__section', props.className)}
-    />
-  )
-}
-
-SidebarSection.displayName = 'SidebarSection'
+        <VStack gap={0} alignItems="flex-start" px={4}>
+          <Text textStyle="mid" pr={0} mb={2}>
+            Pages
+          </Text>
+          <Accordion w="100%" allowMultiple>
+            {sidebarMenu.map((menuItem, index) => (
+              <VStack key={`menu-item-${index}`} gap={0} spacing={0} w="100%">
+                {menuItem.submenu ? (
+                  <NavGroup />
+                ) : (
+                  <NavItem />
+                )}
+              </VStack>
+            ))}
+          </Accordion>
+        </VStack>
+      </Box>
+      <Box w="100%" textAlign="center" mb={5}>
+        {/* {colorMode == 'dark' ? <DarkModeLogoIcon w={32} /> : <LogoIcon w={32} />} */}
+      </Box>
+    </Flex>
+  );
+};

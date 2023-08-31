@@ -209,10 +209,14 @@ export default function Home() {
                   <Link
                     as={NextLink}
                     target="_blank"
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
                     variant="outlineButton"
                     w="100%"
                     textAlign="center"
                     href={demoLink}
+                    h="auto"
                   >
                     View Demo
                   </Link>
