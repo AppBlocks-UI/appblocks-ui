@@ -1,77 +1,38 @@
 import React from "react";
-
-import { useRouter } from "next/router";
-
-import { ChevronDownIcon, ChevronRightIcon } from "@chakra-ui/icons";
-
 import {
   Flex,
   Box,
   Avatar,
   Text,
   VStack,
-  Icon,
   Accordion,
-  AccordionItem,
-  AccordionButton,
-  AccordionPanel,
   useColorMode,
-  Link,
 } from "@chakra-ui/react";
 import { NavItem } from "./nav-item";
 import { NavGroup } from "./nav-group";
 
+export interface MenuProps {
+  name: string,
+  link: string,
+  icon: any,
+}
 
-const sidebarMenu = [
-  {
-    name: "Dashboards",
-    icon: ChevronDownIcon,
-    link: "#dash",
-    submenu: [
-      {
-        name: "Overview",
-        icon: ChevronDownIcon,
-        link: "#overview",
-      },
-      {
-        name: "Reports",
-        icon: ChevronDownIcon,
-        link: "#reports",
-      },
-    ],
-  },
-  {
-    name: "Projects",
-    icon: ChevronDownIcon,
-    link: "#projects",
-    submenu: [
-      {
-        name: "Overview",
-        icon: ChevronDownIcon,
-        link: "/projects",
-      },
-      {
-        name: "Project Details",
-        icon: ChevronDownIcon,
-        link: "/projects/project-details",
-      },
-      {
-        name: "Followers",
-        icon: ChevronDownIcon,
-        link: "#followers",
-      },
-    ],
-  }
-];
+export interface MenuGroupProps extends MenuProps {
+  submenu?: MenuProps[]
+}
 
+export interface SidebarProps {
+  sidebarMenu: MenuGroupProps[],
+  LogoIcon?: any,
+  DarkModeLogoIcon?: any
+}
 
-export const Sidebar = (props: any) => {
-  const router = useRouter();
+export const Sidebar = (props: SidebarProps) => {
   const { colorMode } = useColorMode()
   const { 
-    // sidebarMenu, 
-    // LogoIcon,
-    // DarkModeLogoIcon 
+    sidebarMenu, 
+    LogoIcon,
+    DarkModeLogoIcon 
   } = props
 
   return (
@@ -122,9 +83,9 @@ export const Sidebar = (props: any) => {
             {sidebarMenu.map((menuItem, index) => (
               <VStack key={`menu-item-${index}`} gap={0} spacing={0} w="100%">
                 {menuItem.submenu ? (
-                  <NavGroup />
+                  <NavGroup menuItem={menuItem} />
                 ) : (
-                  <NavItem />
+                  <NavItem menuItem={menuItem} />
                 )}
               </VStack>
             ))}
@@ -132,7 +93,10 @@ export const Sidebar = (props: any) => {
         </VStack>
       </Box>
       <Box w="100%" textAlign="center" mb={5}>
-        {/* {colorMode == 'dark' ? <DarkModeLogoIcon w={32} /> : <LogoIcon w={32} />} */}
+        // when both color modes are specified
+
+        {((colorMode == 'dark') && DarkModeLogoIcon) && <DarkModeLogoIcon w={32} /> }
+        {((colorMode == 'light') && LogoIcon) && <LogoIcon w={32} />}
       </Box>
     </Flex>
   );
